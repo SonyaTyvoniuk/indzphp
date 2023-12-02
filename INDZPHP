@@ -1,0 +1,66 @@
+<?php
+
+// Створення масиву 10 х 10
+$matrix = array();
+for ($i = 0; $i < 10; $i++) {
+    for ($j = 0; $j < 10; $j++) {
+        $matrix[$i][$j] = rand(0, 10);
+    }
+}
+
+// Виведення початкового масиву
+echo "Початковий масив:\n";
+printMatrix($matrix);
+
+// Впорядкування першого стовпця у порядку зменшення
+array_multisort(array_column($matrix, 0), SORT_DESC, $matrix);
+
+// Сортування останнього рядка у порядку зростання
+sort($matrix[9]);
+
+// Виведення масиву після сортування
+echo "Масив після сортування:\n";
+printMatrix($matrix);
+
+// Перевірка умов та показ результатів
+if (array_sum($matrix[0]) < 50) {
+    $product = array_product(array_column($matrix, 9));
+    echo "Добуток елементів останнього стовпця: $product\n";
+} else {
+    $oddSum = getSumOfOddElements($matrix);
+    echo "Сума непарних елементів: $oddSum\n";
+}
+
+// Виведення добутку усіх елементів масиву
+$totalProduct = array_product(array_map('array_product', $matrix));
+echo "Добуток всіх елементів масиву: $totalProduct\n";
+
+// Оновлення другогго стовпця масиву
+foreach ($matrix as &$row) {
+    $row[1] = $row[1] ** 2 - $row[1];
+}
+
+// Виведення масиву після оновлення значень другого стовпця
+echo "Масив після оновлення значень 2 стовпця:\n";
+printMatrix($matrix);
+
+// Функція для виведення масиву
+function printMatrix($matrix) {
+    foreach ($matrix as $row) {
+        echo implode("\t", $row) . "\n";
+    }
+}
+
+// Функція для обчислення суми непарних
+    $oddSum = 0;
+    foreach ($matrix as $row) {
+        foreach ($row as $element) {
+            if ($element % 2 !== 0) {
+                $oddSum += $element;
+            }
+        }
+    }
+    return $oddSum;
+}
+
+?>
